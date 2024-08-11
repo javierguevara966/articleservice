@@ -1,0 +1,79 @@
+openapi: 3.0.1
+info:
+  title: Servicio de Gestión de Artículos
+  description: API para consultar y actualizar información de artículos.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /articulos/{id}:
+    get:
+      summary: Obtener detalles de un artículo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del artículo
+          schema:
+            type: string
+            maxLength: 10
+      responses:
+        '200':
+          description: Información del artículo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Articulo'
+        '404':
+          description: Artículo no encontrado
+    patch:
+      summary: Actualizar datos de un artículo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del artículo
+          schema:
+            type: string
+            maxLength: 10
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActualizarArticulo'
+      responses:
+        '200':
+          description: Artículo actualizado
+        '404':
+          description: Artículo no encontrado
+components:
+  schemas:
+    Articulo:
+      type: object
+      properties:
+        id:
+          type: string
+          maxLength: 10
+        nombre:
+          type: string
+          maxLength: 20
+        descripcion:
+          type: string
+          maxLength: 200
+        precio:
+          type: number
+          format: float
+          example: 19.99
+        modelo:
+          type: string
+          maxLength: 10
+    ActualizarArticulo:
+      type: object
+      properties:
+        descripcion:
+          type: string
+          maxLength: 200
+        modelo:
+          type: string
+          maxLength: 10
